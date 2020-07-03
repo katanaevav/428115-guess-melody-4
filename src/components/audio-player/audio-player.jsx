@@ -35,7 +35,7 @@ export default class AudioPlayer extends PureComponent {
     });
 
     audio.ontimeupdate = () => this.setState({
-      progress: this._audio.currentTime
+      progress: audio.currentTime
     });
   }
 
