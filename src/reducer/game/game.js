@@ -1,12 +1,10 @@
-import {extend} from "./utils.js";
-import {GameType} from "./const.js";
-import questions from "./mocks/questions.js";
+import {extend} from "../../utils.js";
+import {GameType} from "../../const.js";
 
 const initialState = {
   mistakes: 0,
   maxMistakes: 3,
   step: -1,
-  questions,
 };
 
 const ActionType = {
@@ -33,7 +31,6 @@ const ActionCreator = {
 
   incrementMistake: (question, userAnswer) => {
     let answerIsCorrect = false;
-
     switch (question.type) {
       case GameType.ARTIST:
         answerIsCorrect = isArtistAnswerCorrect(question, userAnswer);
@@ -42,7 +39,6 @@ const ActionCreator = {
         answerIsCorrect = isGenreAnswerCorrect(question, userAnswer);
         break;
     }
-
     return {
       type: ActionType.INCREMENT_MISTAKES,
       payload: answerIsCorrect ? 0 : 1,
@@ -63,20 +59,16 @@ const reducer = (state = initialState, action) => {
       return extend(state, {
         step: state.step + action.payload,
       });
-
     case ActionType.INCREMENT_MISTAKES:
       return extend(state, {
         mistakes: state.mistakes + action.payload,
       });
-
     case ActionType.RESET:
       return extend(initialState, {
         step: 0,
       });
   }
-
   return state;
 };
-
 
 export {reducer, ActionType, ActionCreator};
