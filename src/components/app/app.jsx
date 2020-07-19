@@ -16,6 +16,8 @@ import {getStep, getMistakes, getMaxMistakes} from "../../reducer/game/selectors
 import {getQuestions} from "../../reducer/data/selectors.js";
 import {getAuthorizationStatus} from "../../reducer/user/selectors.js";
 import {Operation as UserOperation} from "../../reducer/user/user.js";
+import AuthScreen from "../auth-screen/auth-screen.jsx";
+import {AuthorizationStatus} from "../../reducer/user/user.js";
 
 const GenreQuestionScreenWrapped = withActivePlayer(withUserAnswer(GenreQuestionScreen));
 const ArtistQuestionScreenWrapped = withActivePlayer(ArtistQuestionScreen);
@@ -23,6 +25,8 @@ const ArtistQuestionScreenWrapped = withActivePlayer(ArtistQuestionScreen);
 class App extends PureComponent {
   _renderGameScreen() {
     const {
+      authorizationStatus,
+      login,
       maxMistakes,
       mistakes,
       questions,
@@ -51,13 +55,24 @@ class App extends PureComponent {
     }
 
     if (step >= questions.length) {
-      return (
-        <WinScreen
-          questionsCount={questions.length}
-          mistakesCount={mistakes}
-          onReplayButtonClick={resetGame}
-        />
-      );
+      if (authorizationStatus === AuthorizationStatus.AUTH) {
+        return (
+          <WinScreen
+            questionsCount={questions.length}
+            mistakesCount={mistakes}
+            onReplayButtonClick={resetGame}
+          />
+        );
+      } else if (authorizationStatus === AuthorizationStatus.NO_AUTH) {
+        return (
+          <AuthScreen
+            onReplayButtonClick={resetGame}
+            onSubmit={login}
+          />
+        );
+      }
+
+      return null;
     }
 
     if (question) {
@@ -109,6 +124,12 @@ class App extends PureComponent {
             <GenreQuestionScreenWrapped
               question={questions[0]}
               onAnswer={() => {}}
+            />
+          </Route>
+          <Route exact path="/dev-auth">
+            <AuthScreen
+              onReplayButtonClick={() => {}}
+              onSubmit={() => {}}
             />
           </Route>
         </Switch>
