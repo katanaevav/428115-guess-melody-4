@@ -11,6 +11,7 @@ const ActionType = {
   INCREMENT_MISTAKES: `INCREMENT_MISTAKES`,
   INCREMENT_STEP: `INCREMENT_STEP`,
   RESET: `RESET`,
+  GO_TO_WELCOME: `GO_TO_WELCOME`,
 };
 
 const isArtistAnswerCorrect = (question, userAnswer) => {
@@ -31,6 +32,7 @@ const ActionCreator = {
 
   incrementMistake: (question, userAnswer) => {
     let answerIsCorrect = false;
+
     switch (question.type) {
       case GameType.ARTIST:
         answerIsCorrect = isArtistAnswerCorrect(question, userAnswer);
@@ -39,6 +41,7 @@ const ActionCreator = {
         answerIsCorrect = isGenreAnswerCorrect(question, userAnswer);
         break;
     }
+
     return {
       type: ActionType.INCREMENT_MISTAKES,
       payload: answerIsCorrect ? 0 : 1,
@@ -51,6 +54,13 @@ const ActionCreator = {
       payload: null,
     };
   },
+
+  goToWelcome: () => {
+    return {
+      type: ActionType.GO_TO_WELCOME,
+      payload: null,
+    };
+  },
 };
 
 const reducer = (state = initialState, action) => {
@@ -59,16 +69,25 @@ const reducer = (state = initialState, action) => {
       return extend(state, {
         step: state.step + action.payload,
       });
+
     case ActionType.INCREMENT_MISTAKES:
       return extend(state, {
         mistakes: state.mistakes + action.payload,
       });
+
     case ActionType.RESET:
       return extend(initialState, {
         step: 0,
       });
+
+    case ActionType.GO_TO_WELCOME:
+      return extend(initialState, {
+        step: -1,
+      });
   }
+
   return state;
 };
+
 
 export {reducer, ActionType, ActionCreator};
