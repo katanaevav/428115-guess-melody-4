@@ -1,31 +1,31 @@
-import React, {PureComponent} from "react";
+import * as React from "react";
 import PropTypes from "prop-types";
 import {Switch, Route, Router} from "react-router-dom";
-import WelcomeScreen from "../welcome-screen/welcome-screen.jsx";
-import GameScreen from "../game-screen/game-screen.jsx";
-import ArtistQuestionScreen from "../artist-question-screen/artist-question-screen.jsx";
-import GenreQuestionScreen from "../genre-question-screen/genre-question-screen.jsx";
-import {GameType} from "../../const.js";
-import withActivePlayer from "../../hocs/with-active-player/with-active-player.js";
-import withUserAnswer from "../../hocs/with-user-answer/with-user-answer.js";
+import WelcomeScreen from "../welcome-screen/welcome-screen";
+import GameScreen from "../game-screen/game-screen";
+import ArtistQuestionScreen from "../artist-question-screen/artist-question-screen";
+import GenreQuestionScreen from "../genre-question-screen/genre-question-screen";
+import {GameType} from "../../const";
+import withActivePlayer from "../../hocs/with-active-player/with-active-player";
+import withUserAnswer from "../../hocs/with-user-answer/with-user-answer";
 import {connect} from "react-redux";
-import {ActionCreator} from "../../reducer/game/game.js";
-import GameOverScreen from "../game-over-screen/game-over-screen.jsx";
-import WinScreen from "../win-screen/win-screen.jsx";
-import {getStep, getMistakes, getMaxMistakes} from "../../reducer/game/selectors.js";
-import {getQuestions} from "../../reducer/data/selectors.js";
-import {getAuthorizationStatus} from "../../reducer/user/selectors.js";
-import {Operation as UserOperation} from "../../reducer/user/user.js";
-import AuthScreen from "../auth-screen/auth-screen.jsx";
-import {AuthorizationStatus} from "../../reducer/user/user.js";
-import PrivateRoute from "../private-route/private-route.jsx";
-import history from "../../history.js";
-import {AppRoute} from "../../const.js";
+import {ActionCreator} from "../../reducer/game/game";
+import GameOverScreen from "../game-over-screen/game-over-screen";
+import WinScreen from "../win-screen/win-screen";
+import {getStep, getMistakes, getMaxMistakes} from "../../reducer/game/selectors";
+import {getQuestions} from "../../reducer/data/selectors";
+import {getAuthorizationStatus} from "../../reducer/user/selectors";
+import {Operation as UserOperation} from "../../reducer/user/user";
+import AuthScreen from "../auth-screen/auth-screen";
+import {AuthorizationStatus} from "../../reducer/user/user";
+import PrivateRoute from "../private-route/private-route";
+import history from "../../history";
+import {AppRoute} from "../../const";
 
 const GenreQuestionScreenWrapped = withActivePlayer(withUserAnswer(GenreQuestionScreen));
 const ArtistQuestionScreenWrapped = withActivePlayer(ArtistQuestionScreen);
 
-class App extends PureComponent {
+class App extends React.PureComponent {
   _renderGameScreen() {
     const {
       authorizationStatus,
