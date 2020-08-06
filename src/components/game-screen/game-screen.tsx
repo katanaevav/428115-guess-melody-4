@@ -1,5 +1,5 @@
 import * as React from "react";
-import {GameType} from "../../const";
+import {GameType} from "../../types";
 import {connect} from "react-redux";
 import Mistakes from "../mistakes/mistakes";
 import {getMistakes} from "../../reducer/game/selectors";
@@ -7,7 +7,14 @@ import {Link} from "react-router-dom";
 import {ActionCreator} from "../../reducer/game/game";
 import {AppRoute} from "../../const";
 
-const GameScreen = (props) => {
+interface Props {
+  type: GameType;
+  children: React.ReactNode;
+  goToWelcome: () => void;
+  mistakes: number;
+}
+
+const GameScreen: React.FunctionComponent<Props> = (props: Props) => {
   const {
     type,
     children,
